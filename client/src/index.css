@@ -1,0 +1,339 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: dark;
+  color: #ffffff;
+  background-color: #0a0a0a;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: #0a0a0a;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ========================================
+   OBLIVION ANIMATION SYSTEM
+   ======================================== */
+
+/* Timing variables */
+:root {
+  --anim-fast: 150ms;
+  --anim-normal: 250ms;
+  --anim-slow: 400ms;
+  --anim-entrance: 500ms;
+  --anim-easing: cubic-bezier(0.4, 0, 0.2, 1);
+  --anim-easing-out: cubic-bezier(0, 0, 0.2, 1);
+  --anim-easing-in: cubic-bezier(0.4, 0, 1, 1);
+}
+
+/* Loading screen animations */
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes equalizer {
+  0%, 100% {
+    transform: scaleY(0.3);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 1.5s var(--anim-easing) forwards;
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 4s var(--anim-easing) infinite;
+}
+
+.animate-equalizer {
+  animation: equalizer 1.2s var(--anim-easing) infinite;
+  transform-origin: bottom;
+}
+
+/* Page entrance animation */
+@keyframes page-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-page-enter {
+  animation: page-enter var(--anim-entrance) var(--anim-easing-out) forwards;
+}
+
+/* Staggered children entrance */
+@keyframes stagger-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-stagger-enter {
+  opacity: 0;
+  animation: stagger-enter var(--anim-entrance) var(--anim-easing-out) forwards;
+}
+
+/* Section reveal on scroll */
+@keyframes section-reveal {
+  0% {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-section-reveal {
+  opacity: 0;
+  animation: section-reveal 600ms var(--anim-easing-out) forwards;
+}
+
+/* Card hover lift */
+@keyframes card-hover {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-4px);
+  }
+}
+
+/* Shimmer effect for skeletons */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* Playing indicator bars */
+@keyframes playing-bar {
+  0%, 100% {
+    transform: scaleY(0.4);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+.animate-playing-bar {
+  animation: playing-bar 0.8s var(--anim-easing) infinite;
+  transform-origin: bottom;
+}
+
+/* Button press */
+@keyframes button-press {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.96);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-button-press {
+  animation: button-press 150ms var(--anim-easing);
+}
+
+/* Smooth scale */
+@keyframes scale-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-scale-in {
+  animation: scale-in var(--anim-normal) var(--anim-easing-out) forwards;
+}
+
+/* Fade slide up for search results */
+@keyframes fade-slide-up {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-slide-up {
+  opacity: 0;
+  animation: fade-slide-up var(--anim-slow) var(--anim-easing-out) forwards;
+}
+
+/* Ambient glow movement */
+@keyframes ambient-glow {
+  0%, 100% {
+    transform: translate(-50%, 0) scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translate(-50%, -10px) scale(1.1);
+    opacity: 0.5;
+  }
+}
+
+.animate-ambient-glow {
+  animation: ambient-glow 8s var(--anim-easing) infinite;
+}
+
+/* Image fade in */
+@keyframes image-fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.animate-image-fade-in {
+  animation: image-fade-in 400ms var(--anim-easing-out) forwards;
+}
+
+/* Player slide up */
+@keyframes player-slide-up {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-player-slide-up {
+  animation: player-slide-up var(--anim-slow) var(--anim-easing-out) forwards;
+}
+
+/* Navbar fade in */
+@keyframes navbar-fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-navbar-fade-in {
+  animation: navbar-fade-in var(--anim-slow) var(--anim-easing-out) forwards;
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .animate-fade-in,
+  .animate-pulse-slow,
+  .animate-equalizer,
+  .animate-page-enter,
+  .animate-stagger-enter,
+  .animate-section-reveal,
+  .animate-shimmer,
+  .animate-playing-bar,
+  .animate-button-press,
+  .animate-scale-in,
+  .animate-fade-slide-up,
+  .animate-ambient-glow,
+  .animate-image-fade-in,
+  .animate-player-slide-up,
+  .animate-navbar-fade-in {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "oblivion",
+  "version": "1.0.0",
+  "description": "OBLIVION — Music Discovery and Streaming Application",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "dev:client": "npm run dev --workspace=client",
+    "dev:server": "npm run dev --workspace=server",
+    "build:client": "npm run build --workspace=client",
+    "build:server": "npm run build --workspace=server",
+    "lint:client": "npm run lint --workspace=client",
+    "lint:server": "npm run lint --workspace=server"
+  },
+  "dependencies": {
+    "mongodb": "^7.6.0",
+    "mongoose": "^9.9.4"
+  }
+}
