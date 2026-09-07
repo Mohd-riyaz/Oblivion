@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Search, Sparkles, Music, Compass, Zap } from 'lucide-react';
+import { Sparkles, Music, Zap } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Track } from '../types';
 import { musicApi } from '../services/api';
@@ -164,57 +164,6 @@ export default function Discover() {
 
   return (
     <div className="space-y-12">
-      {/* Discover Hero */}
-      <section className="relative py-12 sm:py-16 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent" />
-        <div className="absolute top-0 right-0 w-[400px] h-[300px] bg-primary/10 rounded-full blur-[100px] opacity-20" />
-
-        <div className="relative max-w-3xl">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-              <Compass className="w-5 h-5 text-primary" aria-hidden="true" />
-            </div>
-            <span className="text-sm font-medium text-muted-uppercase tracking-wider text-muted-foreground">DISCOVER</span>
-          </div>
-
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-4">
-            Find something
-            <br />
-            <span className="text-muted-foreground font-normal">you didn't know you needed.</span>
-          </h1>
-
-          <p className="text-lg text-muted-foreground mb-8 max-w-xl">
-            Explore new genres, discover hidden gems, and find the perfect soundtrack for every moment.
-          </p>
-
-          <div className="relative max-w-lg">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" aria-hidden="true" />
-            <input
-              type="text"
-              placeholder="Search artists, tracks, genres..."
-              className="w-full bg-surface border border-muted focus:border-primary focus:ring-2 focus:ring-primary/20 px-4 py-4 pl-12 pr-24 text-base rounded-xl placeholder:text-muted-foreground outline-none transition-colors"
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && (e.target as HTMLInputElement).value) {
-                  navigate(`/search?q=${encodeURIComponent((e.target as HTMLInputElement).value)}`);
-                }
-              }}
-              aria-label="Search music"
-            />
-            <button
-              onClick={(e) => {
-                const input = (e.currentTarget.previousElementSibling as HTMLInputElement);
-                if (input.value) {
-                  navigate(`/search?q=${encodeURIComponent(input.value)}`);
-                }
-              }}
-              className="absolute right-2 top-1/2 -translate-y-1/2 bg-primary text-primary-foreground px-4 py-2 rounded-lg text-sm font-medium hover:opacity-90 transition-opacity"
-            >
-              Explore
-            </button>
-          </div>
-        </div>
-      </section>
-
       {/* Browse by Genre */}
       <section>
         <div className="flex items-center gap-3 mb-6">

@@ -113,8 +113,8 @@ export default function Home() {
 
   return (
     <div className="min-h-screen animate-page-enter">
-      {/* Featured Song Banner */}
-      <section className="relative py-6 sm:py-8 -mx-4 sm:-mx-8 lg:-mx-12 px-4 sm:px-8 lg:px-12">
+      {/* Featured Song Hero Banner */}
+      <section className="px-4 sm:px-8 lg:px-12 pt-3 pb-8 w-full max-w-[1600px] mx-auto">
         <FeaturedBanner
           tracks={bannerTracks}
           loading={bannerLoading}

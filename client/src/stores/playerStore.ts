@@ -16,6 +16,7 @@ interface PlayerState {
   previousTrack: () => void;
   setVolume: (volume: number) => void;
   setQueue: (queue: Track[]) => void;
+  addToQueue: (track: Track) => void;
 }
 
 export const usePlayerStore = create<PlayerState>((set, get) => ({
@@ -107,6 +108,12 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
       queue,
       currentIndex: -1,
     });
+  },
+
+  addToQueue: (track) => {
+    const { queue } = get();
+    if (queue.some((t) => t.id === track.id)) return;
+    set({ queue: [...queue, track] });
   },
 }));
 
