@@ -47,7 +47,7 @@ export default function Signup() {
     requestedUsername?: string
   ): Promise<AuthUser> => {
     const response = await fetch(
-      'http://localhost:5000/api/auth/google',
+      `${import.meta.env.VITE_API_URL}/api/auth/google`,
       {
         method: 'POST',
         headers: {
@@ -123,7 +123,7 @@ export default function Signup() {
         default:
           setError(
             error?.message ||
-              'Unable to sign up with Google. Please try again.'
+            'Unable to sign up with Google. Please try again.'
           );
       }
     } finally {
@@ -208,7 +208,7 @@ export default function Signup() {
        * and creates the MongoDB user.
        */
       const response = await fetch(
-        'http://localhost:5000/api/auth/google',
+        `${import.meta.env.VITE_API_URL}/api/auth/google`,
         {
           method: 'POST',
           headers: {
@@ -226,7 +226,7 @@ export default function Signup() {
       if (!response.ok) {
         throw new Error(
           data.error ||
-            'Failed to create OBLIVION profile.'
+          'Failed to create OBLIVION profile.'
         );
       }
 
@@ -267,7 +267,7 @@ export default function Signup() {
         default:
           setError(
             error?.message ||
-              'Unable to create your account. Please try again.'
+            'Unable to create your account. Please try again.'
           );
       }
     } finally {
