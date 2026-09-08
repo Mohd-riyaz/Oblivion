@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { googleAuth } from '../controllers/auth.controller.js';
+import { firebaseAuth } from '../controllers/auth.controller.js';
 
 const router = Router();
 
-router.post('/google', googleAuth);
+router.post('/google', firebaseAuth);
 
 export default router;

@@ -1,14 +1,23 @@
 import { Request, Response } from 'express';
-import { firebaseAuth } from '../config/firebase-admin.js';
+import { firebaseAuth as adminAuth } from '../config/firebase-admin.js';
 import { User } from '../models/user.model.js';
 
-export const googleAuth = async (
+/**
+ * Authenticate a user using a Firebase ID token.
+ *
+ * Used by:
+ * - Email/Password Signup
+ * - Google Login
+ * - Google Signup
+ */
+export const firebaseAuth = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
-    const { idToken } = req.body;
+    const { idToken, username } = req.body;
 
+    // Check token
     if (!idToken) {
       res.status(400).json({
         error: 'Firebase ID token is required',
@@ -16,55 +25,67 @@ export const googleAuth = async (
       return;
     }
 
-    // Verify the token issued by Firebase
-    const decodedToken = await firebaseAuth.verifyIdToken(idToken);
+    // Verify Firebase token
+    const decodedToken =
+      await adminAuth.verifyIdToken(idToken);
 
     const firebaseUid = decodedToken.uid;
     const email = decodedToken.email;
 
     if (!email) {
       res.status(400).json({
-        error: 'Google account does not have an email address',
+        error: 'Firebase account does not have an email address',
       });
       return;
     }
 
-    const displayName =
-      decodedToken.name ||
-      email.split('@')[0];
+    // Check if MongoDB user already exists
+    let user = await User.findOne({
+      firebaseUid,
+    });
 
-    const avatar = decodedToken.picture || undefined;
-
-    // Find existing user
-    let user = await User.findOne({ firebaseUid });
-
-    // If user doesn't exist, create one
+    // Create MongoDB user if it doesn't exist
     if (!user) {
-      let username = displayName
+      let finalUsername =
+        username?.trim() ||
+        decodedToken.name ||
+        email.split('@')[0];
+
+      // Convert username to safe format
+      finalUsername = finalUsername
         .toLowerCase()
         .replace(/[^a-z0-9]/g, '')
         .slice(0, 20);
 
-      if (!username) {
-        username = `user${Date.now()}`;
+      // Fallback username
+      if (!finalUsername) {
+        finalUsername = `user${Date.now()}`;
       }
 
       // Make username unique
-      const existingUsername = await User.findOne({ username });
+      const existingUsername =
+        await User.findOne({
+          username: finalUsername,
+        });
 
       if (existingUsername) {
-        username = `${username}${Date.now().toString().slice(-4)}`;
+        finalUsername =
+          `${finalUsername}${Date.now()
+            .toString()
+            .slice(-4)}`;
       }
 
       user = await User.create({
         firebaseUid,
         email,
-        username,
-        avatar,
+        username: finalUsername,
+        avatar:
+          decodedToken.picture || undefined,
       });
     }
 
-    res.json({
+    // Return user
+    res.status(200).json({
       success: true,
       user: {
         id: user._id.toString(),
@@ -75,8 +96,12 @@ export const googleAuth = async (
       },
     });
   } catch (error: any) {
-    console.error('Google authentication error:', error);
+    console.error(
+      'Firebase authentication error:',
+      error
+    );
 
+    // Expired/invalid Firebase token
     if (
       error?.code === 'auth/id-token-expired' ||
       error?.code === 'auth/invalid-id-token'
@@ -87,6 +112,17 @@ export const googleAuth = async (
       return;
     }
 
+    // Firebase user doesn't exist / malformed token
+    if (
+      error?.code === 'auth/user-not-found'
+    ) {
+      res.status(401).json({
+        error: 'Firebase user not found',
+      });
+      return;
+    }
+
+    // Everything else
     res.status(500).json({
       error: 'Authentication failed',
     });
