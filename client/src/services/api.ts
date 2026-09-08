@@ -1,37 +1,61 @@
 import axios from 'axios';
 import { Track } from '../types';
 
+const API_URL =
+  import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: `${API_URL}/api`,
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
 
 export const musicApi = {
   search: async (query: string, limit = 20): Promise<Track[]> => {
     if (!query.trim()) return [];
-    const response = await api.get(`/music/search`, {
-      params: { q: query, limit },
+
+    const response = await api.get('/music/search', {
+      params: {
+        q: query,
+        limit,
+      },
     });
+
     return response.data.tracks || [];
   },
 
   getTrending: async (limit = 20): Promise<Track[]> => {
-    const response = await api.get(`/music/trending`, {
-      params: { limit },
+    const response = await api.get('/music/trending', {
+      params: {
+        limit,
+      },
     });
+
     return response.data.tracks || [];
   },
 
   getNewReleases: async (limit = 20): Promise<Track[]> => {
-    const response = await api.get(`/music/new-releases`, {
-      params: { limit },
+    const response = await api.get('/music/new-releases', {
+      params: {
+        limit,
+      },
     });
+
     return response.data.tracks || [];
   },
 
-  getGenreTracks: async (genre: string, limit = 20): Promise<Track[]> => {
-    const response = await api.get(`/music/genre`, {
-      params: { genre, limit },
+  getGenreTracks: async (
+    genre: string,
+    limit = 20
+  ): Promise<Track[]> => {
+    const response = await api.get('/music/genre', {
+      params: {
+        genre,
+        limit,
+      },
     });
+
     return response.data.tracks || [];
   },
 };
@@ -39,10 +63,14 @@ export const musicApi = {
 export const libraryApi = {
   getLibrary: async (userId: string): Promise<Track[]> => {
     const response = await api.get('/library', {
-      params: { userId },
+      params: {
+        userId,
+      },
     });
+
     return response.data.tracks || [];
   },
+
   saveTrack: async (userId: string, track: Track) => {
     const response = await api.post('/library', {
       userId,
@@ -55,12 +83,23 @@ export const libraryApi = {
       artwork: track.artwork,
       streamUrl: track.streamUrl,
     });
+
     return response.data;
   },
-  removeTrack: async (userId: string, audiusTrackId: number) => {
-    const response = await api.delete(`/library/${audiusTrackId}`, {
-      params: { userId },
-    });
+
+  removeTrack: async (
+    userId: string,
+    audiusTrackId: number
+  ) => {
+    const response = await api.delete(
+      `/library/${audiusTrackId}`,
+      {
+        params: {
+          userId,
+        },
+      }
+    );
+
     return response.data;
   },
 };
