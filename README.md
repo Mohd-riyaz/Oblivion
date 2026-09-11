@@ -389,13 +389,6 @@ npm run build:server
 
 > Compound unique index on `(userId, audiusTrackId)` prevents duplicate saves.
 
----
-
-## License
-
-This project is for educational and portfolio purposes.
-
----
 
 <p align="center">
   Built with 🎶 by <a href="https://github.com/Mohd-riyaz">Mohd Riyaz</a>
