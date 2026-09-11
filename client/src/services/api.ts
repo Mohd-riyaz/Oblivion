@@ -12,8 +12,13 @@ const api = axios.create({
 });
 
 export const musicApi = {
-  search: async (query: string, limit = 20): Promise<Track[]> => {
-    if (!query.trim()) return [];
+  search: async (
+    query: string,
+    limit = 20
+  ): Promise<Track[]> => {
+    if (!query.trim()) {
+      return [];
+    }
 
     const response = await api.get('/music/search', {
       params: {
@@ -22,27 +27,31 @@ export const musicApi = {
       },
     });
 
-    return response.data.tracks || [];
+    return response.data?.tracks || [];
   },
 
-  getTrending: async (limit = 20): Promise<Track[]> => {
+  getTrending: async (
+    limit = 20
+  ): Promise<Track[]> => {
     const response = await api.get('/music/trending', {
       params: {
         limit,
       },
     });
 
-    return response.data.tracks || [];
+    return response.data?.tracks || [];
   },
 
-  getNewReleases: async (limit = 20): Promise<Track[]> => {
+  getNewReleases: async (
+    limit = 20
+  ): Promise<Track[]> => {
     const response = await api.get('/music/new-releases', {
       params: {
         limit,
       },
     });
 
-    return response.data.tracks || [];
+    return response.data?.tracks || [];
   },
 
   getGenreTracks: async (
@@ -56,22 +65,27 @@ export const musicApi = {
       },
     });
 
-    return response.data.tracks || [];
+    return response.data?.tracks || [];
   },
 };
 
 export const libraryApi = {
-  getLibrary: async (userId: string): Promise<Track[]> => {
+  getLibrary: async (
+    userId: string
+  ): Promise<Track[]> => {
     const response = await api.get('/library', {
       params: {
         userId,
       },
     });
 
-    return response.data.tracks || [];
+    return response.data?.tracks || [];
   },
 
-  saveTrack: async (userId: string, track: Track) => {
+  saveTrack: async (
+    userId: string,
+    track: Track
+  ) => {
     const response = await api.post('/library', {
       userId,
       audiusTrackId: track.id,

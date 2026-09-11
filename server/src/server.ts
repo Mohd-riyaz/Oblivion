@@ -21,7 +21,7 @@ const PORT = process.env.PORT || 5000;
 // Allowed frontend origins
 const allowedOrigins = [
   'http://localhost:5173',
-  'https://oblivion-client.vercel.app',
+  'https://oblivionnn.vercel.app',
 ];
 
 // Create Express app
